@@ -1,24 +1,27 @@
-# README
+# Testing Vue with Capybara
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The purpose of this app is to demonstrate a problem with getting a feature spec in RSpec + Capybara working
+with a Vue component.  The application is super simple: there is an Employee model with attributes of name and age.
 
-Things you may want to cover:
+The Vue component then queries /employees.json to get a list of the employees and display them in a table.
 
-* Ruby version
+The request is made using axios.
 
-* System dependencies
+I am unsure of how to get the data to show up in the spec, `/spec/features/user_views_employees_spec.rb`.
 
-* Configuration
+Here is the spec:
 
-* Database creation
+```
+require 'rails_helper'
 
-* Database initialization
+feature 'user views employee', js: true do
+  scenario 'successfully' do
+    employee = FactoryGirl.create(:employee, name: 'Nate')
 
-* How to run the test suite
+    visit root_path
 
-* Services (job queues, cache servers, search engines, etc.)
+    expect(page).to have_content employee.name
+  end
+```
 
-* Deployment instructions
-
-* ...
+I have tried various methods of waiting including setting `Capybara.default_max_wait_time = 10` and various forms of `sleep(5)` after visiting `root_path`.
